@@ -170,6 +170,7 @@ public class ControlFlow {
 				boolean ctrl = true;
 
 				/* 2. Any instruction that is the target of a conditional or unconditional jump is a leader. */
+				/* Link type 1: There is a conditional or unconditional jump from the end of B to the beginning of C */
 				switch (insn.getOpcode()) {
 					case RETURN_VOID:
 					case RETURN:
@@ -258,7 +259,7 @@ public class ControlFlow {
 				currMark.block = currBlock;
 			}
 
-			/* Add missing links between consecutive blocks */
+			/* Link type 2: C immediately follows B, and B does not end in an unconditional jump. */
 			currMark = marks[0];
 			Mark prevMark;
 			for (int i = 1; i < marks.length; i++) {
