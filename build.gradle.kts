@@ -10,6 +10,7 @@ repositories {
 }
 
 dependencies {
+    compile("org.smali:dexlib2:2.2.7")
     testCompile("junit", "junit", "4.12")
 }
 
