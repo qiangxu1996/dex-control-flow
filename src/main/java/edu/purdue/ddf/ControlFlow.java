@@ -1,6 +1,10 @@
 package edu.purdue.ddf;
 
 import org.jf.dexlib2.builder.*;
+import soot.toolkits.graph.DirectedGraph;
+import soot.toolkits.graph.DominatorTree;
+import soot.toolkits.graph.MHGDominatorsFinder;
+import soot.toolkits.graph.MHGPostDominatorsFinder;
 
 import java.util.*;
 
@@ -300,6 +304,68 @@ public class ControlFlow {
 		}
 	}
 
+	static class CFG implements DirectedGraph<Block> {
+		final Block[] blocks;
+
+		List<Block> heads = new ArrayList<>();
+
+		List<Block> tails = new ArrayList<>();
+
+		CFG(Block[] blocks) {
+			this.blocks = blocks;
+			for (var b : blocks) {
+				if (b.entrances.length == 0)
+					heads.add(b);
+				if (b.exits.length == 0)
+					tails.add(b);
+			}
+		}
+
+		@Override
+		public List<Block> getHeads() {
+			return heads;
+		}
+
+		@Override
+		public List<Block> getTails() {
+			return tails;
+		}
+
+		@Override
+		public List<Block> getPredsOf(Block s) {
+			return Arrays.asList(s.entrances);
+		}
+
+		@Override
+		public List<Block> getSuccsOf(Block s) {
+			return Arrays.asList(s.exits);
+		}
+
+		@Override
+		public int size() {
+			return blocks.length;
+		}
+
+		@Override
+		public Iterator<Block> iterator() {
+			return new Iterator<>() {
+				int i = 0;
+
+				@Override
+				public boolean hasNext() {
+					return i < blocks.length;
+				}
+
+				@Override
+				public Block next() {
+					if (!hasNext())
+						throw new NoSuchElementException();
+					return blocks[i++];
+				}
+			};
+		}
+	}
+
 	/**
 	 * Constructs a control-flow analyzer for the given method.
 	 * {@link MutableMethodImplementation} is required because its instructions are of type {@link BuilderInstruction}.
@@ -317,5 +383,13 @@ public class ControlFlow {
 	 */
 	public Block[] basicBlocks() {
 		return basicBlocks;
+	}
+
+	public DominatorTree<Block> dominatorTree() {
+		return new DominatorTree<>(new MHGDominatorsFinder<>(new CFG(basicBlocks)));
+	}
+
+	public DominatorTree<Block> postDominatorTree() {
+		return new DominatorTree<>(new MHGPostDominatorsFinder<>(new CFG(basicBlocks)));
 	}
 }

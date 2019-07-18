@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     compile("org.smali:dexlib2:2.2.7")
+    compile("ca.mcgill.sable:soot:3.3.0")
     testCompile("junit", "junit", "4.12")
 }
 
