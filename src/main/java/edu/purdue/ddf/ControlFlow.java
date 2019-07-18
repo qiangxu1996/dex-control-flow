@@ -25,8 +25,6 @@ import java.util.*;
  * @author Qiang Xu
  */
 public class ControlFlow {
-	private MutableMethodImplementation methodImpl;
-
 	private Block[] basicBlocks;
 
 	/**
@@ -371,7 +369,6 @@ public class ControlFlow {
 	 * {@link MutableMethodImplementation} is required because its instructions are of type {@link BuilderInstruction}.
 	 */
 	public ControlFlow(MutableMethodImplementation methodImpl) {
-		this.methodImpl = methodImpl;
 		basicBlocks = new BlockBuilder().make(methodImpl);
 	}
 
