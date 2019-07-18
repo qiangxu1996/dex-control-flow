@@ -51,6 +51,53 @@ public class ControlFlow {
 		Block(int pos) {
 			position = pos;
 		}
+
+		/**
+		 * Returns the position of the first instruction
+		 * in this block.
+		 */
+		public int position() {
+			return position;
+		}
+
+		/**
+		 * Returns the length of this block.
+		 */
+		public int length() {
+			return length;
+		}
+
+		/**
+		 * Returns the number of the control paths entering this block.
+		 */
+		public int incomings() {
+			return entrances.length;
+		}
+
+		/**
+		 * Returns the block that the control may jump into this block from.
+		 */
+		public Block incoming(int n) {
+			return entrances[n];
+		}
+
+		/**
+		 * Return the number of the blocks that may be executed
+		 * after this block.
+		 */
+		public int exits() {
+			return exits.length;
+		}
+
+		/**
+		 * Returns the n-th block that may be executed after this
+		 * block.
+		 *
+		 * @param n an index in the array of exit blocks.
+		 */
+		public Block exit(int n) {
+			return exits[n];
+		}
 	}
 
 	static class BlockBuilder {
