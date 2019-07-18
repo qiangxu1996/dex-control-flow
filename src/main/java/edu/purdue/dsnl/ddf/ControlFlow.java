@@ -1,4 +1,4 @@
-package edu.purdue.ddf;
+package edu.purdue.dsnl.ddf;
 
 import org.jf.dexlib2.builder.*;
 import soot.toolkits.graph.DirectedGraph;

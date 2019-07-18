@@ -2,7 +2,7 @@ plugins {
     java
 }
 
-group = "edu.purdue"
+group = "edu.purdue.dsnl"
 version = "1.0-SNAPSHOT"
 
 repositories {
